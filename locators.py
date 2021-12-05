@@ -5,19 +5,18 @@ from selenium.webdriver.common.keys import Keys
 
 driver = webdriver.Chrome()
 driver.get('https://www.amazon.com/')  # browsing amazon.com
-driver.find_element(By.ID ,"nav-link-accountList").click()  # going to sign-in page
+driver.find_element(By.ID, "nav-link-accountList").click()  # going to sign-in page
 
-driver.find_element(By.XPATH, "//span[@class = 'a-expander-prompt']").click()  #  dropping "Need help" options
-driver.find_element(By.XPATH, "//i[@class = 'a-icon a-icon-logo']")   #  finding AMAZON logo
-driver.find_element(By.ID, 'ap_email').clear()  # locating e-mail field
-driver.find_element(By.ID, 'continue')  # locating continue button
-driver.find_element(By.XPATH, "//span[@class = 'a-expander-prompt']") # need help link
-driver.find_element(By.ID, "auth-fpp-link-bottom")   # forgot your password link
-driver.find_element(By.ID, "ap-other-signin-issues-link") # other issues with Sign-In link
-driver.find_element(By.ID, "createAccountSubmit")  # create you Amazon account
-driver.find_element(By.XPATH, "//div[@id = 'legalTextRow']/a[contains(@href ,  'condition')]") # conditions of use
-driver.find_element(By.XPATH, "//div[@id = 'legalTextRow']/a[contains(@href ,  'privacy')]")  # privacy notice
-
-sleep(5)
+driver.find_element(By.ID, "createAccountSubmit").click()  # browsing "create account" page
+driver.find_element(By.CSS_SELECTOR, "i.a-icon.a-icon-logo")  # this is the logo
+driver.find_element(By.CSS_SELECTOR, "h1.a-spacing-small")  # "create account" header
+driver.find_element(By.ID, "ap_customer_name")   # "name" field
+driver.find_element(By.ID, "ap_email")     # email field
+driver.find_element(By.ID, "ap_password")   # password field
+driver.find_element(By.ID, "ap_password_check")   # confirm password field
+driver.find_element(By.ID, "continue") # continue button
+driver.find_element(By.CSS_SELECTOR, "[href *= 'condition']") # condition of use
+driver.find_element(By.CSS_SELECTOR, "#legalTextRow [href *= 'privacy']")   # privacy notice
+driver.find_element(By.CSS_SELECTOR, "[href *= 'signin']")    # sign-in page
 
 driver.quit()
