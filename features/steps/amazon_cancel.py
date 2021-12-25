@@ -4,6 +4,7 @@ from behave import given, when, then
 
 best_seller = (By.CSS_SELECTOR, "[href *= bestsellers]")
 best_seller_tab = (By.XPATH, "//ul[./li/div/a[text() = 'Best Sellers']]//a") # searching the parent of best_seller
+banner_text = (By.CSS_SELECTOR, "span#zg_banner_text")
 
 #UI elements
 tmp1 = (By.CSS_SELECTOR, ".a-section.a-spacing-extra-large.ss-landing-container")
@@ -13,6 +14,7 @@ tmp4 = (By.CSS_SELECTOR, ".a-span12.a-column.a-spacing-top-small")
 tmp5 = (By.ID, "category-section")
 tmp6 = (By.CSS_SELECTOR, "img.csg-hb-promo[src *= 'EAB']")
 UI_elements = [tmp1, tmp2, tmp3, tmp4, tmp5, tmp6]
+
 
 @given("Open Amazon costumer service")
 def open_amazon_costum(context):
@@ -44,12 +46,35 @@ def typein_cancel_order(context):
 @given("Navigate to best sellers")
 def nav_to_best_seller(context):
     context.driver.find_element(*best_seller).click()
+    context.original_page = context.driver.current_window_handle
 
 
 @then("there are {num_link} links on the top panel")
 def links_on_the_top_panel(context, num_link):
     elements_with_links = context.driver.find_elements(*best_seller_tab)
     assert int(num_link) == len(elements_with_links), f"Error, the number of links does not match"
+
+
+@when("Clicking on links")
+def click_links(context):
+    elements_with_links = len(context.driver.find_elements(*best_seller_tab))
+
+    tabsTitle = []
+    pagesTitle = []
+    for elem_i in range(elements_with_links):
+        elements = context.driver.find_elements(*best_seller_tab)
+        tabsTitle.append(elements[elem_i].text)
+        elements[elem_i].click()
+        pagesTitle.append(context.driver.find_element(*banner_text).text)
+    context.pagesTitle = pagesTitle
+    context.tabsTitle = tabsTitle
+
+
+@then("New pages open")
+def new_page(context):
+
+    for i in range(len(context.pagesTitle)):
+        assert context.tabsTitle[i] in context.pagesTitle[i], f"new pages do not match!"
 
 
 @when("Click Enter")
