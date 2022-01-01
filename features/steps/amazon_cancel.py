@@ -21,11 +21,6 @@ def open_amazon_costum(context):
     context.driver.get("https://www.amazon.com/gp/help/customer/display.html")
 
 
-@given("Open Amazon website")
-def open_amazon(context):
-    context.driver.get("https://www.amazon.com/")
-
-
 @given("Navigate to customer service")
 def navigate_customer_service(context):
     context.driver.get("https://www.amazon.com/gp/help/customer/display.html")
