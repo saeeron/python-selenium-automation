@@ -1,12 +1,15 @@
 import random
 
-from selenium.webdriver import Keys
+from selenium.webdriver import Keys, ActionChains
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class Page:
 
     def __init__(self, driver):
         self.driver = driver
+        self.wait = WebDriverWait(self.driver, 10)
         self.amazon_main_url = "https://www.amazon.com/"
 
     def input_text(self, text, locator):
@@ -41,4 +44,18 @@ class Page:
         elements = self.driver.find_elements(*locator)
         element = elements[random.randint(0, len(elements) + 1)]
         element.click()
+
+    def mouse_hover_on(self, locator):
+        element = self.driver.find_element(*locator)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element)
+        actions.perform()
+
+    def find_element(self, locator):
+        return self.driver.find_element(*locator)
+
+    def wait_until_appearance(self, locator):
+        return self.wait.until(EC.presence_of_element_located(locator))
+
+
 
